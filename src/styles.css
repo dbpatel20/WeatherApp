@@ -1,0 +1,200 @@
+/* =========================
+   GLOBAL
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* =========================
+   APP CONTAINER
+========================= */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* =========================
+   HEADER
+========================= */
+h2 {
+  margin-bottom: 10px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  background: #1e90ff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background: #187bcd;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+/* =========================
+   SEARCH
+========================= */
+.search-container {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  z-index: 1000;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+.dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  color: #000;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.dropdown li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dropdown li:hover {
+  background: #f0f0f0;
+}
+
+/* =========================
+   MAP
+========================= */
+.leaflet-container {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  z-index: 0;
+}
+
+/* =========================
+   WEATHER CARDS
+========================= */
+.card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.card strong {
+  font-size: 1.2rem;
+}
+
+.remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.remove:hover {
+  opacity: 1;
+}
+
+/* =========================
+   FORECAST
+========================= */
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.box {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.box:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.icon {
+  font-size: 1.4rem;
+}
+
+/* =========================
+   HOURLY
+========================= */
+.hourly {
+  margin-top: 12px;
+}
+
+.hourly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 6px;
+}
+
+.hour-box {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 6px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* =========================
+   SLIDER
+========================= */
+input[type="range"] {
+  width: 100%;
+  accent-color: #1e90ff;
+}
