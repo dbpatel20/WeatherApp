@@ -1,200 +1,575 @@
-/* =========================
-   GLOBAL
-========================= */
+/* ================= RESET ================= */
+
 * {
   box-sizing: border-box;
 }
 
+/* ================= BODY ================= */
+
 body {
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-  color: #ffffff;
+  font-family: Inter, system-ui, sans-serif;
+  color: white;
   min-height: 100vh;
+  transition: background 0.6s ease;
+  overflow-x: hidden;
 }
 
-/* =========================
-   APP CONTAINER
-========================= */
+/* ================= WEATHER BACKGROUNDS (DAY) ================= */
+
+.bg-clear {
+  background: linear-gradient(180deg, #4facfe, #00f2fe);
+}
+
+.bg-partly {
+  background: linear-gradient(180deg, #83a4d4, #b6fbff);
+}
+
+.bg-cloudy {
+  background: linear-gradient(180deg, #bdc3c7, #2c3e50);
+}
+
+.bg-rain {
+  background: linear-gradient(180deg, #5f7fbf, #2c7edb);
+}
+
+.bg-snow {
+  background: linear-gradient(180deg, #e9eef3, #7f8fa6);
+}
+
+.bg-storm {
+  background: linear-gradient(180deg, #0f2027, #203a43);
+}
+
+.bg-default {
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+}
+
+/* ================= TRUE NIGHT MODE ================= */
+
+.night {
+  background: #000 !important;
+}
+
+/* ================= STARS (CLEAR NIGHTS) ================= */
+
+.night.bg-clear::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(white 1px, transparent 2px),
+    radial-gradient(white 1px, transparent 2px),
+    radial-gradient(white 1px, transparent 2px);
+  background-size: 120px 120px, 180px 180px, 240px 240px;
+  background-position: 0 0, 40px 60px, 80px 120px;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+/* ================= MOON GLOW ================= */
+
+.night.bg-clear::after {
+  content: "";
+  position: fixed;
+  top: 80px;
+  right: 120px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.9) 0%,
+    rgba(255,255,255,0.4) 30%,
+    rgba(255,255,255,0.1) 55%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ================= AURORA (CLEAR OR SNOWY NIGHTS) ================= */
+
+.night.bg-clear::selection,
+.night.bg-snow::selection {}
+
+.night.bg-clear .aurora,
+.night.bg-snow .aurora {}
+
+.night.bg-clear::marker,
+.night.bg-snow::marker {}
+
+.night.bg-clear::backdrop,
+.night.bg-snow::backdrop {}
+
+.night.bg-clear::view-transition-group {}
+
+.night.bg-clear::cue {}
+
+.night.bg-clear::placeholder {}
+
+.night.bg-clear::spelling-error {}
+
+.night.bg-clear::grammar-error {}
+
+.night.bg-clear::file-selector-button {}
+
+.night.bg-clear::first-letter {}
+
+.night.bg-clear::first-line {}
+
+.night.bg-clear::target-text {}
+
+.night.bg-clear::highlight {}
+
+.night.bg-clear::part {}
+
+.night.bg-clear::slotted {}
+
+.night.bg-clear::cue-region {}
+
+.night.bg-clear::cue {}
+
+.night.bg-clear::after,
+.night.bg-snow::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(0,255,180,0.15),
+    rgba(0,120,255,0.15),
+    rgba(180,0,255,0.15)
+  );
+  filter: blur(80px);
+  animation: aurora 18s ease-in-out infinite alternate;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes aurora {
+  from {
+    transform: translateX(-20%) translateY(-10%);
+  }
+  to {
+    transform: translateX(20%) translateY(10%);
+  }
+}
+
+/* ================= WEATHER EFFECTS ================= */
+
+/* Rain */
+.bg-rain::before,
+.bg-storm::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.18) 2px,
+    transparent 2px,
+    transparent 12px
+  );
+  animation: rain 0.9s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rain {
+  from { background-position: 0 0; }
+  to { background-position: 160px 320px; }
+}
+
+/* Snow */
+.bg-snow::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(255,255,255,0.85) 1px,
+    transparent 2px
+  );
+  background-size: 28px 28px;
+  animation: snow 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes snow {
+  from { background-position: 0 -300px; }
+  to { background-position: 0 300px; }
+}
+
+/* Thunder */
+.bg-storm::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.5);
+  opacity: 0;
+  animation: flash 14s infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes flash {
+  0%, 94%, 100% { opacity: 0; }
+  96% { opacity: 0.3; }
+  98% { opacity: 0; }
+}
+
+/* ================= LAYOUT ================= */
+
 .container {
   max-width: 1100px;
   margin: auto;
   padding: 20px;
-}
-
-/* =========================
-   HEADER
-========================= */
-h2 {
-  margin-bottom: 10px;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-button {
-  background: #1e90ff;
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
-
-button:hover {
-  background: #187bcd;
-  transform: translateY(-1px);
-}
-
-button:disabled {
-  background: #555;
-  cursor: not-allowed;
-}
-
-/* =========================
-   SEARCH
-========================= */
-.search-container {
   position: relative;
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  z-index: 1000;
+  z-index: 1;
 }
 
-.search-container input {
-  flex: 1;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-}
+/* ================= CARDS ================= */
 
-/* =========================
-   DROPDOWN
-========================= */
-.dropdown {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  color: #000;
-  border-radius: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  max-height: 240px;
-  overflow-y: auto;
-}
-
-.dropdown li {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.dropdown li:hover {
-  background: #f0f0f0;
-}
-
-/* =========================
-   MAP
-========================= */
-.leaflet-container {
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  z-index: 0;
-}
-
-/* =========================
-   WEATHER CARDS
-========================= */
 .card {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255,255,255,0.18);
   backdrop-filter: blur(12px);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  position: relative;
 }
 
-.card strong {
+/* ================= HERO ================= */
+
+.hero {
+  text-align: center;
+}
+
+.hero-temp {
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.hero-desc {
+  opacity: 0.85;
+}
+
+.hero-meta {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ================= HOURLY ================= */
+
+.hourly-scroll,
+.hourly-day {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* ================= HOURLY CARD FIX ================= */
+
+.hour-box {
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.icon {
   font-size: 1.2rem;
 }
 
-.remove {
+.pop {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* ================= MAP ================= */
+
+.weather-marker {
+  pointer-events: none;
+}
+
+/* ================= SEARCH FIX ================= */
+
+.search-container {
+  position: relative;
+  z-index: 50; /* ABOVE weather effects */
+}
+
+.search-container input {
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+
+/* DROPDOWN CLEANUP */
+.dropdown {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  z-index: 100;
+}
+
+.dropdown li {
+  padding: 10px 12px;
   cursor: pointer;
-  opacity: 0.7;
+  font-size: 0.9rem;
 }
 
-.remove:hover {
-  opacity: 1;
+.dropdown li:hover {
+  background: #f2f2f2;
 }
 
-/* =========================
-   FORECAST
-========================= */
-.forecast {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 8px;
-  margin-top: 12px;
+/* CITY TABS BUTTON FIX */
+.city-tabs button {
+  background: rgba(30,144,255,0.9);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
 }
 
-.box {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 8px;
-  text-align: center;
-  transition: background 0.2s ease, transform 0.1s ease;
+.city-tabs button.active {
+  background: #1e90ff;
+  font-weight: 600;
 }
 
-.box:hover {
-  background: rgba(255, 255, 255, 0.25);
+/* ================= UNIT TOGGLE FIX ================= */
+
+.unit-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 50; /* ABOVE night / weather effects */
+}
+
+.unit-toggle button {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 18px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+
+.unit-toggle button:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.unit-toggle .active {
+  background: #1e90ff;
+  border-color: #1e90ff;
+  font-weight: 600;
+}
+
+/* ================= DAILY ROW FIX ================= */
+
+/* ================= CLEAN FUTURE FORECAST ================= */
+
+/* DAY HEADER */
+/* ================= 24H FUTURE FORECAST — CLEAN ================= */
+
+/* DAY HEADER */
+.daily-row {
+  grid-template-columns: 70px 40px 1fr;
+  padding: 10px 6px;
+  font-size: 0.95rem;
+  align-items: center;
+}
+
+/* HOURLY STRIP */
+.hourly-day.full {
+  display: flex;
+  gap: 14px;
+  padding: 10px 4px 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+/* BIG, NEAT HOUR CARD */
+.hour-box.full {
+  min-width: 90px;
+  height: 120px;
+  padding: 10px 6px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.hour-box.full:hover {
+  background: rgba(255,255,255,0.28);
   transform: translateY(-2px);
 }
 
-.icon {
-  font-size: 1.4rem;
+/* TIME */
+.hour-box.full .time {
+  font-size: 0.75rem;
+  opacity: 0.7;
 }
 
-/* =========================
-   HOURLY
-========================= */
-.hourly {
-  margin-top: 12px;
+/* ICON */
+.hour-box.full .icon {
+  font-size: 1.6rem;
 }
 
-.hourly-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 6px;
+/* TEMP */
+.hour-box.full .temp {
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
-.hour-box {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  padding: 6px;
-  font-size: 0.8rem;
-  text-align: center;
+/* PRECIP */
+.hour-box.full .pop {
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
 
-/* =========================
-   SLIDER
-========================= */
-input[type="range"] {
-  width: 100%;
-  accent-color: #1e90ff;
+/* ================= PREMIUM SCROLLBAR ================= */
+
+/* Firefox */
+.hourly-day.full {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.35) transparent;
+}
+
+/* Webkit */
+.hourly-day.full::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hourly-day.full::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hourly-day.full::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.35);
+  border-radius: 20px;
+}
+
+.hourly-day.full::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.55);
+}
+
+/* OPTIONAL: hide scrollbar until hover */
+.hourly-day.full::-webkit-scrollbar {
+  opacity: 0;
+}
+.hourly-day.full:hover::-webkit-scrollbar {
+  opacity: 1;
+}
+
+/* ================= UNIFIED HOURLY (TODAY + FUTURE) ================= */
+
+.hourly-day.full {
+  display: flex;
+  gap: 14px;
+  padding: 10px 4px 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+/* BIG, READABLE CARDS */
+.hour-box.full {
+  min-width: 90px;
+  height: 120px;
+  padding: 10px 6px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.hour-box.full:hover {
+  background: rgba(255,255,255,0.28);
+  transform: translateY(-2px);
+}
+
+/* TIME */
+.hour-box.full .time {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* ICON */
+.hour-box.full .icon {
+  font-size: 1.6rem;
+}
+
+/* TEMP */
+.hour-box.full .temp {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* PRECIP */
+.hour-box.full .pop {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* ================= PREMIUM SCROLLBAR ================= */
+
+/* Firefox */
+.hourly-day.full {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.35) transparent;
+}
+
+/* Webkit */
+.hourly-day.full::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hourly-day.full::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hourly-day.full::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.35);
+  border-radius: 20px;
+}
+
+.hourly-day.full::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.55);
+}
+
+/* Optional: hide until hover */
+.hourly-day.full::-webkit-scrollbar {
+  opacity: 0;
+}
+.hourly-day.full:hover::-webkit-scrollbar {
+  opacity: 1;
 }
